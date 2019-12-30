@@ -1,11 +1,13 @@
 package com.sba.projecthandler.controller;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +62,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("/tasks/search")
-	public ResponseEntity<List<TaskVO>> search(@RequestParam int projectId) {
+	public ResponseEntity<List<TaskVO>> search(@RequestParam int projectId, @RequestParam(required = false) String sortBy) {
 		//get all tasks
 		List<TaskVO> tasksList = TaskConverter.toDtos(taskService.list());
 		
@@ -72,6 +74,25 @@ public class TaskController {
 		List<TaskVO> parentTasks = ParentTaskConverter.toDtos(parentTaskService.list().stream().filter(parentTask -> parentTaskIds.contains(parentTask.getParentId())).collect(Collectors.toList()));
 		
 		projectTasks.addAll(parentTasks);
-		return ResponseEntity.ok().body(projectTasks);
+		
+		if(!StringUtils.isEmpty(sortBy) && sortBy.equalsIgnoreCase("startdate")) {
+			Comparator<TaskVO> startDateComparator = (o1, o2)-> o1.getStartDate().compareTo(o2.getStartDate());
+			projectTasks.sort(startDateComparator);
+			return ResponseEntity.ok().body(projectTasks);
+		} else if (!StringUtils.isEmpty(sortBy) && sortBy.equalsIgnoreCase("enddate")) {
+			Comparator<TaskVO> endDateComparator = (o1, o2)-> o1.getEndDate().compareTo(o2.getEndDate());
+			projectTasks.sort(endDateComparator);
+			return ResponseEntity.ok().body(projectTasks);
+		} else if (!StringUtils.isEmpty(sortBy) && sortBy.equalsIgnoreCase("priority")) {
+			Comparator<TaskVO> priorityComparator = (o1, o2)-> o1.getPriority().compareTo(o2.getPriority());
+			projectTasks.sort(priorityComparator);
+			return ResponseEntity.ok().body(projectTasks);
+		} else if (!StringUtils.isEmpty(sortBy) && sortBy.equalsIgnoreCase("completed")) {
+			Comparator<TaskVO> priorityComparator = (o1, o2)-> o1.getPriority().compareTo(o2.getPriority());
+			projectTasks.sort(priorityComparator);
+			return ResponseEntity.ok().body(projectTasks);
+		} else {
+			return ResponseEntity.ok().body(projectTasks);
+		}
 	}
 }

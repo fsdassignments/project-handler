@@ -81,7 +81,7 @@ public class ParentTaskControllerTest {
 		ResponseEntity<TaskVO> response = parentTaskController.save(taskVO);
 		
 		assertEquals(response.getStatusCode().toString(), "200 OK");
-		assertEquals(response.getBody().getTaskId(), 1);
+		assertEquals(response.getBody().getTaskId(),  new Integer(1));
 		assertEquals(response.getBody().getTask(), "AnyTask");
 		
 		verify(parentTaskService, times(1)).save(pt1);
@@ -102,7 +102,7 @@ public class ParentTaskControllerTest {
 		ResponseEntity<TaskVO> response = parentTaskController.get(1);
 		
 		assertEquals(response.getStatusCode().toString(), "200 OK");
-		assertEquals(response.getBody().getTaskId(), 1);
+		assertEquals(response.getBody().getTaskId(),  new Integer(1));
 		assertEquals(response.getBody().getTask(), "AnyTask");
 		
 		verify(parentTaskService, times(1)).get(1);

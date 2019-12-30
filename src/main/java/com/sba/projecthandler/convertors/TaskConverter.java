@@ -11,7 +11,6 @@ import com.sba.projecthandler.model.Task;
 import com.sba.projecthandler.model.User;
 import com.sba.projecthandler.vo.TaskVO;
 
-
 public class TaskConverter {
 	public static Task toPojo(TaskVO taskVO) {
 		Task task = new Task();
@@ -20,7 +19,7 @@ public class TaskConverter {
 		task.setParentTask(new ParentTask(taskVO.getParentTaskId()));
 		task.setProject(new Project(taskVO.getProjectId()));
 		List<User> lstUsers = new ArrayList<>();
-		for(Integer id: taskVO.getUserIds()) {
+		for (Integer id : taskVO.getUserIds()) {
 			User user = new User(id);
 			lstUsers.add(user);
 		}
@@ -28,25 +27,31 @@ public class TaskConverter {
 		task.setPriority(taskVO.getPriority());
 		task.setStartDate(taskVO.getStartDate());
 		task.setEndDate(taskVO.getEndDate());
-		task.setStatus(taskVO.getIsFinished());
+		task.setStatus(null != taskVO.getIsFinished() ? taskVO.getIsFinished() : false);
 		return task;
 	}
 
 	public static List<TaskVO> toDtos(List<Task> tasks) {
-		return tasks.stream().map(task-> toDto(task)).collect(Collectors.toList());
+		return tasks.stream().map(task -> toDto(task)).collect(Collectors.toList());
 	}
 
 	public static TaskVO toDto(Task task) {
 		TaskVO taskVO = new TaskVO();
 		taskVO.setTaskId(task.getTaskId());
 		taskVO.setTask(task.getTask());
-		taskVO.setParentTaskId(task.getParentTask().getParentId());
-		taskVO.setProjectId(task.getProject().getProjectId());
+		if (null != task.getParentTask()) {
+			taskVO.setParentTaskId(task.getParentTask().getParentId());
+		}
+		if (null!=task.getProject()) {			
+			taskVO.setProjectId(task.getProject().getProjectId());
+		}
 		taskVO.setPriority(task.getPriority());
 		taskVO.setStartDate(task.getStartDate());
 		taskVO.setEndDate(task.getEndDate());
 		taskVO.setIsFinished(task.isStatus());
-		taskVO.setUserIds(task.getUsers().stream().map(User::getUserId).collect(Collectors.toList()));
+		if (null!=task.getUsers()) {
+			taskVO.setUserIds(task.getUsers().stream().map(User::getUserId).collect(Collectors.toList()));
+		}
 		return taskVO;
 	}
 }
