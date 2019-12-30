@@ -2,13 +2,14 @@ package com.sba.projecthandler.vo;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class TaskVO {
-	private int taskId;
-	private int parentTaskId;
-	private int projectId;
+	private Integer taskId;
+	private Integer parentTaskId;
+	private Integer projectId;
 	private List<Integer> userIds;
 	private String task;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -26,16 +27,16 @@ public class TaskVO {
 	public void setIsParent(Boolean isParent) {
 		this.isParent = isParent;
 	}
-	public int getTaskId() {
+	public Integer getTaskId() {
 		return taskId;
 	}
-	public void setTaskId(int taskId) {
+	public void setTaskId(Integer taskId) {
 		this.taskId = taskId;
 	}
-	public int getParentTaskId() {
+	public Integer getParentTaskId() {
 		return parentTaskId;
 	}
-	public void setParentTaskId(int parentTaskId) {
+	public void setParentTaskId(Integer parentTaskId) {
 		this.parentTaskId = parentTaskId;
 	}
 	public String getTask() {
@@ -69,10 +70,10 @@ public class TaskVO {
 		this.isFinished = isFinished;
 	}
 	
-	public int getProjectId() {
+	public Integer getProjectId() {
 		return projectId;
 	}
-	public void setProjectId(int projectId) {
+	public void setProjectId(Integer projectId) {
 		this.projectId = projectId;
 	}
 	public List<Integer> getUserIds() {
@@ -80,5 +81,22 @@ public class TaskVO {
 	}
 	public void setUserIds(List<Integer> userIds) {
 		this.userIds = userIds;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(endDate, isFinished, priority, startDate, task);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TaskVO other = (TaskVO) obj;
+		return Objects.equals(endDate, other.endDate) && Objects.equals(isFinished, other.isFinished)
+				&& Objects.equals(priority, other.priority) && Objects.equals(startDate, other.startDate)
+				&& Objects.equals(task, other.task);
 	}
 }

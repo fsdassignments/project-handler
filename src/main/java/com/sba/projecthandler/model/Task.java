@@ -139,7 +139,7 @@ public class Task implements java.io.Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(endDate, parentTask, priority, project, startDate, status, task, taskId, users);
+		return Objects.hash(endDate, priority, startDate, status, task, taskId);
 	}
 
 	@Override
@@ -151,11 +151,8 @@ public class Task implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Task other = (Task) obj;
-		return Objects.equals(endDate, other.endDate) && Objects.equals(parentTask, other.parentTask)
-				&& priority == other.priority && Objects.equals(project, other.project)
+		return Objects.equals(endDate, other.endDate) && priority == other.priority
 				&& Objects.equals(startDate, other.startDate) && status == other.status
-				&& Objects.equals(task, other.task) && Objects.equals(taskId, other.taskId)
-				&& Objects.equals(users, other.users);
+				&& Objects.equals(task, other.task) && Objects.equals(taskId, other.taskId);
 	}
-
 }

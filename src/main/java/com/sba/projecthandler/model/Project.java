@@ -111,7 +111,7 @@ public class Project implements java.io.Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(endDate, priority, project, projectId, startDate, tasks, users);
+		return Objects.hash(endDate, priority, project, projectId, startDate);
 	}
 
 	@Override
@@ -125,7 +125,6 @@ public class Project implements java.io.Serializable {
 		Project other = (Project) obj;
 		return Objects.equals(endDate, other.endDate) && Objects.equals(priority, other.priority)
 				&& Objects.equals(project, other.project) && Objects.equals(projectId, other.projectId)
-				&& Objects.equals(startDate, other.startDate) && Objects.equals(tasks, other.tasks)
-				&& Objects.equals(users, other.users);
+				&& Objects.equals(startDate, other.startDate);
 	}
 }

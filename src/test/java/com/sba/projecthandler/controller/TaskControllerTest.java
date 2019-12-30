@@ -91,11 +91,11 @@ public class TaskControllerTest {
 		TaskVO responseVO = response.getBody();
 		
 		assertEquals(response.getStatusCode().toString(), "200 OK");
-		assertEquals(responseVO.getTaskId(), 1);
+		assertEquals(responseVO.getTaskId(),  new Integer(1));
 		assertEquals(responseVO.getTask(), "Task1");
 		assertEquals(responseVO.getPriority(), new Integer(3));
-		assertEquals(responseVO.getProjectId(), 1);
-		assertEquals(responseVO.getParentTaskId(), 1);
+		assertEquals(responseVO.getProjectId(), new Integer(1));
+		assertEquals(responseVO.getParentTaskId(), new Integer(1));
 		assertEquals(responseVO.getUserIds(), newArrayList(1, 2));
 		
 		verify(taskService, times(1)).get(1);
@@ -141,7 +141,7 @@ public class TaskControllerTest {
 		when(taskService.list()).thenReturn(newArrayList(task, task1, task2));
 		when(parentTaskService.list()).thenReturn(newArrayList(pt1, pt2));
 		
-		ResponseEntity<List<TaskVO>> response = taskController.search(1);
+		ResponseEntity<List<TaskVO>> response = taskController.search(1, null);
 		
 		assertEquals(response.getStatusCode().toString(), "200 OK");
 		assertEquals(response.getBody().size(), 4);
@@ -175,11 +175,11 @@ public class TaskControllerTest {
 		TaskVO responseVO = response.getBody();
 		
 		assertEquals(response.getStatusCode().toString(), "200 OK");
-		assertEquals(responseVO.getTaskId(), 1);
+		assertEquals(responseVO.getTaskId(),  new Integer(1));
 		assertEquals(responseVO.getTask(), "Task1");
 		assertEquals(responseVO.getPriority(), new Integer(3));
-		assertEquals(responseVO.getProjectId(), 1);
-		assertEquals(responseVO.getParentTaskId(), 1);
+		assertEquals(responseVO.getProjectId(), new Integer(1));
+		assertEquals(responseVO.getParentTaskId(), new Integer(1));
 		assertEquals(responseVO.getUserIds(), newArrayList(1, 2));
 		
 		verify(taskService, times(1)).save(task);
